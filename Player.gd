@@ -21,11 +21,11 @@ func _physics_process(delta):
 	
 	motion = move_and_slide(motion, UP) 
 	
-	get_parent().get_parent().get_node("CanvasLayer/RichTextLabel").text = str(score)
+	get_parent().get_parent().get_node("CanvasLayer/Label").text = str(score)
 
 func Wall_reset():
 	var Wall_instance = Wall.instance()
-	Wall_instance.position = Vector2(450, rand_range(-60, 60))
+	Wall_instance.position = Vector2(600, rand_range(-60, 60))
 	get_parent().call_deferred("add_child", Wall_instance)
 	
 func _on_Resetter_body_entered(body):
