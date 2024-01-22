@@ -1,0 +1,103 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://WallNode.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Player.gd" type="Script" id=2]
+[ext_resource path="res://art/player.png" type="Texture" id=3]
+[ext_resource path="res://art/spotlight.png" type="Texture" id=4]
+[ext_resource path="res://art/wall.png" type="Texture" id=5]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 9.0
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 10, 152 )
+
+[node name="World" type="Node2D"]
+position = Vector2( -32, -136 )
+scale = Vector2( 1.63982, 1.66473 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enable = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer"]
+margin_left = 96.0
+margin_top = 152.0
+margin_right = 136.0
+margin_bottom = 192.0
+text = "0"
+
+[node name="PlayerNode" type="Node2D" parent="."]
+position = Vector2( 120, 256 )
+
+[node name="Player" type="KinematicBody2D" parent="PlayerNode"]
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerNode/Player"]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="PlayerNode/Player"]
+texture = ExtResource( 3 )
+
+[node name="Detect" type="Area2D" parent="PlayerNode/Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerNode/Player/Detect"]
+shape = SubResource( 2 )
+
+[node name="Resetter" type="Area2D" parent="PlayerNode/Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerNode/Player/Resetter"]
+position = Vector2( -288, 8 )
+shape = SubResource( 3 )
+
+[node name="Light2D" type="Light2D" parent="PlayerNode/Player"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 4 )
+shadow_enabled = true
+
+[node name="WallNode" parent="." instance=ExtResource( 1 )]
+position = Vector2( 280, 256 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="WallNode2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 385.408, 278.723 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="WallNode3" parent="." instance=ExtResource( 1 )]
+position = Vector2( 497.615, 245.084 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="WallNode4" parent="." instance=ExtResource( 1 )]
+position = Vector2( 609.823, 283.529 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="WallNode5" parent="." instance=ExtResource( 1 )]
+position = Vector2( 712.273, 240.279 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 120, 256 )
+zoom = Vector2( 0.5, 0.5 )
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0.0980392, 0.0196078, 0.117647, 1 )
+position = Vector2( 464, 288 )
+scale = Vector2( 80, 54 )
+z_index = -5
+texture = ExtResource( 5 )
+
+[connection signal="area_entered" from="PlayerNode/Player/Detect" to="PlayerNode/Player" method="_on_Detect_area_entered"]
+[connection signal="body_entered" from="PlayerNode/Player/Detect" to="PlayerNode/Player" method="_on_Detect_body_entered"]
+[connection signal="body_entered" from="PlayerNode/Player/Resetter" to="PlayerNode/Player" method="_on_Resetter_body_entered"]
